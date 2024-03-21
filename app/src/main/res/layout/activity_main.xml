@@ -108,7 +108,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/prosent"
+            android:id="@+id/prosenttext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="40dp"
