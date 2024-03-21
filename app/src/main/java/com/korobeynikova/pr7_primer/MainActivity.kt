@@ -2,55 +2,43 @@ package com.korobeynikova.pr7_primer
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
+import com.korobeynikova.pr7_primer.databinding.ActivityMainBinding
 import kotlin.random.Random
-
-private lateinit var start: Button
-private lateinit var check: Button
-
-private lateinit var null1: TextView
-private lateinit var null2: TextView
-private lateinit var znak: TextView
 
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        start = findViewById(R.id.start)
-        check = findViewById(R.id.check)
+        binding.check.isEnabled = false
 
-        null1 = findViewById(R.id.null_null_1)
-        null2 = findViewById(R.id.null_null_2)
-        znak = findViewById(R.id.znak)
-
-        check.isEnabled = false
-
-        start.setOnClickListener {
-            check.isEnabled = true
-            start.isEnabled = false
+        binding.start.setOnClickListener {
+            binding.check.isEnabled = true
+            binding.start.isEnabled = false
 
             generatePrimer()
         }
 
-        check.setOnClickListener {
-            check.isEnabled = false
-            start.isEnabled = true
+        binding.check.setOnClickListener {
+            binding.check.isEnabled = false
+            binding.start.isEnabled = true
         }
     }
-
-    fun generateRandomOperand(): Int {
+    private fun generateRandomOperand(): Int {
         return Random.nextInt(10, 100)
     }
 
-    fun generateRandomOperator(): Char {
+    private fun generateRandomOperator(): Char {
         val operators = listOf('*', '/', '-', '+')
         return operators.random()
     }
     private fun generatePrimer(){
-        null1.text = generateRandomOperand().toString()
-        null2.text = generateRandomOperand().toString()
-        znak.text = generateRandomOperator().toString()
+        binding.nullNull1.text = generateRandomOperand().toString()
+        binding.nullNull2.text = generateRandomOperand().toString()
+        binding.znak.text = generateRandomOperator().toString()
     }
 }
