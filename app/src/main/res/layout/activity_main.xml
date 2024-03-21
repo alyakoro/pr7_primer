@@ -161,8 +161,8 @@
                 android:layout_weight="50"
                 android:ems="1"
                 android:gravity="center"
-                android:inputType="text"
-                android:text="00"
+                android:hint="00"
+                android:inputType="number"
                 android:textSize="34sp" />
         </LinearLayout>
 

@@ -15,10 +15,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.check.isEnabled = false
+        binding.vvod.isEnabled = false
 
         binding.start.setOnClickListener {
             binding.check.isEnabled = true
             binding.start.isEnabled = false
+            binding.vvod.isEnabled = true
 
             generatePrimer()
         }
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         binding.check.setOnClickListener {
             binding.check.isEnabled = false
             binding.start.isEnabled = true
+            binding.vvod.isEnabled = false
         }
     }
     private fun generateRandomOperand(): Int {
