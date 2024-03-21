@@ -121,7 +121,8 @@
             android:layout_height="match_parent"
             android:layout_weight="60"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="20dp">
 
             <TextView
                 android:id="@+id/null_null_1"
@@ -162,8 +163,8 @@
                 android:layout_weight="50"
                 android:ems="2"
                 android:gravity="center"
-                android:hint="00"
-                android:inputType="number"
+                android:hint="0.00"
+                android:inputType="text"
                 android:textSize="34sp" />
         </LinearLayout>
 

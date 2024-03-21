@@ -55,22 +55,26 @@ class MainActivity : AppCompatActivity() {
         binding.znak.text = generateRandomOperator().toString()
     }
     private fun checkPrimer(){
-        val numberOne = binding.nullNull1.text.toString().toInt()
-        val numberYwo = binding.nullNull2.text.toString().toInt()
+        val numberOne = binding.nullNull1.text.toString().toDouble()
+        val numberYwo = binding.nullNull2.text.toString().toDouble()
         var pollResult = binding.vvod.text.toString()
 
         val result = when (binding.znak.text) {
             "+" -> numberOne + numberYwo
             "-" -> numberOne - numberYwo
             "*" -> numberOne * numberYwo
-            "/" -> numberOne / numberYwo
+            "/" -> {
+                val stringResult =
+                    String.format("%.2f", numberOne / numberYwo)
+                stringResult.replace(',', '.').toDouble()
+            }
             else -> throw IllegalArgumentException("Unknown operator")
         }
 
         if (pollResult == ""){
             pollResult = "0"
         }
-        if (result == pollResult.toInt()){
+        if (result == pollResult.toDouble()){
             right++
             binding.primerlayout.setBackgroundColor(ContextCompat.getColor(this, R.color.green))
         }
@@ -80,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         }
         all++
 
-        var present = String.format("%.2f%%", (right.toDouble() / all.toDouble()) * 100)
+        val present = String.format("%.2f%%", (right.toDouble() / all.toDouble()) * 100)
 
         binding.null1.text = all.toString()
         binding.null2.text = right.toString()
