@@ -116,6 +116,7 @@
             android:textSize="60sp" />
 
         <LinearLayout
+            android:id="@+id/primerlayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="60"
@@ -159,7 +160,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="50"
-                android:ems="1"
+                android:ems="2"
                 android:gravity="center"
                 android:hint="00"
                 android:inputType="number"

@@ -2,6 +2,7 @@ package com.korobeynikova.pr7_primer
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import com.korobeynikova.pr7_primer.databinding.ActivityMainBinding
 import kotlin.random.Random
 
@@ -28,6 +29,8 @@ class MainActivity : AppCompatActivity() {
             binding.vvod.isEnabled = true
 
             generatePrimer()
+
+            binding.vvod.text = null
         }
 
         binding.check.setOnClickListener {
@@ -54,6 +57,7 @@ class MainActivity : AppCompatActivity() {
     private fun checkPrimer(){
         val numberOne = binding.nullNull1.text.toString().toInt()
         val numberYwo = binding.nullNull2.text.toString().toInt()
+        var pollResult = binding.vvod.text.toString()
 
         val result = when (binding.znak.text) {
             "+" -> numberOne + numberYwo
@@ -63,14 +67,21 @@ class MainActivity : AppCompatActivity() {
             else -> throw IllegalArgumentException("Unknown operator")
         }
 
-        if (result == binding.vvod.text.toString().toInt()){
-            right++
+        if (pollResult == ""){
+            pollResult = "0"
         }
-        else{
-            lose++
+        if (result == pollResult.toInt()){
+            right++
+            binding.primerlayout.setBackgroundColor(ContextCompat.getColor(this, R.color.green))
+        }
+        else {
+           lose++
+           binding.primerlayout.setBackgroundColor(ContextCompat.getColor(this, R.color.red))
         }
         all++
-        val present = String.format("%.2f%%", (right.toDouble() / all.toDouble()) * 100)
+
+        var present = String.format("%.2f%%", (right.toDouble() / all.toDouble()) * 100)
+
         binding.null1.text = all.toString()
         binding.null2.text = right.toString()
         binding.null3.text = lose.toString()
