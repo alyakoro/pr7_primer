@@ -1,11 +1,11 @@
 package com.korobeynikova.pr7_primer
 
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import com.korobeynikova.pr7_primer.databinding.ActivityMainBinding
 import kotlin.random.Random
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +19,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if (savedInstanceState != null) {
+            right = savedInstanceState.getInt("right", 0)
+            lose = savedInstanceState.getInt("lose", 0)
+            all = savedInstanceState.getInt("all", 0)
+            updateUI()
+        }
 
         binding.check.isEnabled = false
         binding.vvod.isEnabled = false
@@ -41,6 +48,40 @@ class MainActivity : AppCompatActivity() {
             checkPrimer()
         }
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("right", right)
+        outState.putInt("lose", lose)
+        outState.putInt("all", all)
+        outState.putString("prosenttext", binding.prosenttext.text.toString())
+        outState.putString("null_null_1", binding.nullNull1.text.toString())
+        outState.putString("null_null_2", binding.nullNull2.text.toString())
+        outState.putBoolean("start_enabled", binding.start.isEnabled)
+        outState.putBoolean("check_enabled", binding.check.isEnabled)
+
+        outState.putInt("primerlayout_background", (binding.primerlayout.background as ColorDrawable).color)
+
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        right = savedInstanceState.getInt("right", 0)
+        lose = savedInstanceState.getInt("lose", 0)
+        all = savedInstanceState.getInt("all", 0)
+        binding.prosenttext.text = savedInstanceState.getString("prosenttext")
+        binding.nullNull1.text = savedInstanceState.getString("null_null_1")
+        binding.nullNull2.text = savedInstanceState.getString("null_null_2")
+        binding.start.isEnabled = savedInstanceState.getBoolean("start_enabled")
+        binding.check.isEnabled = savedInstanceState.getBoolean("check_enabled")
+
+        val backgroundColor = savedInstanceState.getInt("primerlayout_background")
+        binding.primerlayout.setBackgroundColor(backgroundColor)
+
+        updateUI()
+    }
+
     private fun generateRandomOperand(): Int {
         return Random.nextInt(10, 100)
     }
@@ -49,11 +90,13 @@ class MainActivity : AppCompatActivity() {
         val operators = listOf('*', '/', '-', '+')
         return operators.random()
     }
+
     private fun generatePrimer(){
         binding.nullNull1.text = generateRandomOperand().toString()
         binding.nullNull2.text = generateRandomOperand().toString()
         binding.znak.text = generateRandomOperator().toString()
     }
+
     private fun checkPrimer(){
         val numberOne = binding.nullNull1.text.toString().toDouble()
         val numberYwo = binding.nullNull2.text.toString().toDouble()
@@ -79,11 +122,20 @@ class MainActivity : AppCompatActivity() {
             binding.primerlayout.setBackgroundColor(ContextCompat.getColor(this, R.color.green))
         }
         else {
-           lose++
-           binding.primerlayout.setBackgroundColor(ContextCompat.getColor(this, R.color.red))
+            lose++
+            binding.primerlayout.setBackgroundColor(ContextCompat.getColor(this, R.color.red))
         }
         all++
 
+        val present = String.format("%.2f%%", (right.toDouble() / all.toDouble()) * 100)
+
+        binding.null1.text = all.toString()
+        binding.null2.text = right.toString()
+        binding.null3.text = lose.toString()
+        binding.prosenttext.text = present
+    }
+
+    private fun updateUI() {
         val present = String.format("%.2f%%", (right.toDouble() / all.toDouble()) * 100)
 
         binding.null1.text = all.toString()
